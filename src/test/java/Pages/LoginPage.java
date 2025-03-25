@@ -1,5 +1,6 @@
 package Pages;
 
+import io.opentelemetry.api.baggage.BaggageEntry;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,15 +23,18 @@ public class LoginPage extends BasePage {
         this.loginButton = browser.findElement(By.id("btn-entrar"));
     }
 
-    public void fillUserField(String username) {
+    public LoginPage fillUserField(String username) {
         usernameField.sendKeys(username);
+        return this;
     }
 
-    public void fillPasswordField(String password) {
+    public LoginPage fillPasswordField(String password) {
         passwordField.sendKeys(password);
+        return this;
     }
 
-    public void clickLoginButton() {
+    public ProductsListPage clickLoginButton() {
         loginButton.click();
+        return new ProductsListPage(browser);
     }
 }

@@ -3,10 +3,7 @@ package Modules;
 import Pages.BasePage;
 import Pages.LoginPage;
 import Utils.JsonUtils;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -14,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class LoginTest {
     private WebDriver browser;
 
+    // Arrange
     @BeforeEach
     public void beforeEach() {
         this.browser = new ChromeDriver();
@@ -21,18 +19,23 @@ public class LoginTest {
         basePage.accessHomePage();
     }
 
+    // Act and Assert
     @Test
-    @DisplayName("Login with valid credential")
-    public void loginWithValidCredential() {
+    @DisplayName("Login with valid credentials")
+    public void loginWithValidCredentials() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
-        LoginPage loginPage = new LoginPage(browser);
-        loginPage.fillUserField(username);
-        loginPage.fillPasswordField(password);
-        loginPage.clickLoginButton();
+        String message = new LoginPage(browser)
+                .fillUserField(username)
+                .fillPasswordField(password)
+                .clickLoginButton()
+                .getTitleMessage();
+
+        Assertions.assertEquals("Lojinha", message);
     }
 
+    // Post actions
     @AfterEach
     public void afterEach() {
         browser.quit();

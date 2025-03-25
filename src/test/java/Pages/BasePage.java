@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public class BasePage {
-    private final WebDriver browser;
+    protected final WebDriver browser;
 
     public BasePage(WebDriver browser) {
         this.browser = browser;
