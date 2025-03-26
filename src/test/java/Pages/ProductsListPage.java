@@ -1,24 +1,28 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class ProductsListPage extends BasePage {
     @FindBy(id = "logo-container")
-    private final WebElement title;
+    private WebElement title;
+
     @FindBy(css = "a[class=\"waves-effect waves-light btn right\"]")
-    private final WebElement addProductButton;
+    private WebElement addProductButton;
 
     public ProductsListPage (WebDriver browser) {
         super(browser);
-        this.title = browser.findElement(By.id("logo-container"));
-        this.addProductButton = browser.findElement(By.cssSelector("a[class=\"waves-effect waves-light btn right\"]"));
+        PageFactory.initElements(browser, this);
     }
 
     public void accessAddProductForm() {
         addProductButton.click();
+    }
+
+    public String getToastMessage() {
+        return toast.getText();
     }
 
     public String getTitleMessage() {

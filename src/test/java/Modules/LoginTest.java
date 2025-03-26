@@ -35,6 +35,18 @@ public class LoginTest {
         Assertions.assertEquals("Lojinha", message);
     }
 
+    @Test
+    @DisplayName("Login with invalid credentials")
+    public void loginWithInvalidCredentials() {
+        String message = new LoginPage(browser)
+                .fillUserField("invalid")
+                .fillPasswordField("invalid")
+                .clickLoginButton()
+                .getToastMessage();
+
+        Assertions.assertEquals("Falha ao fazer o login", message);
+    }
+
     // Post actions
     @AfterEach
     public void afterEach() {
