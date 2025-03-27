@@ -55,9 +55,4 @@ public class EditProductFormPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOf(productsListButton)).click();
         return new ProductsListPage(browser);
     }
-
-    public EditProductFormPage waitEditionMessage() {
-        wait.until(ExpectedConditions.visibilityOf(toast));
-        return new EditProductFormPage(browser);
-    }
 }
