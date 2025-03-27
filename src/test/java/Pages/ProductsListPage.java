@@ -40,7 +40,6 @@ public class ProductsListPage extends BasePage {
 
     public String getNameFromLastItem() {
         return wait.until(ExpectedConditions.visibilityOf(productName)).getText();
-        //return productName.getText();
     }
 
     public String getValueFromLastItem() {
@@ -52,7 +51,6 @@ public class ProductsListPage extends BasePage {
     }
 
     public Integer getNumberListItems() {
-        // return wait.until(ExpectedConditions.visibilityOfAllElements(productlist)).size();
         try {
             return wait.until(ExpectedConditions.visibilityOfAllElements(productlist)).size();
         } catch (TimeoutException e) {

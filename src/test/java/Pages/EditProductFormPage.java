@@ -43,7 +43,7 @@ public class EditProductFormPage extends BasePage {
         return this;
     }
 
-    public EditProductFormPage clickUpdateProductButton() {
+    public EditProductFormPage clickEditProductButton() {
         updateProductButton.click();
         return new EditProductFormPage(browser);
     }
