@@ -44,6 +44,7 @@ public class LoginTest {
                 .clickLoginButton()
                 .getToastMessage();
 
+        // Translation: Failed to login
         Assertions.assertEquals("Falha ao fazer o login", message);
     }
 
