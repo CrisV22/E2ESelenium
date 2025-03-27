@@ -17,7 +17,7 @@ public class EditProductFormPage extends BasePage {
     @FindBy(id = "produtocores")
     private WebElement coloursField;
 
-    @FindBy(id = "btn-salvar")
+    @FindBy(css = "button[class=\"btn waves-effect waves-light\"]")
     private WebElement updateProductButton;
 
     @FindBy(css = "a[class=\"waves-effect waves-light btn grey\"]")
@@ -29,22 +29,25 @@ public class EditProductFormPage extends BasePage {
     }
 
     public EditProductFormPage editProductNameField(String name) {
-        nameField.sendKeys(name);
+        nameField.clear();
+        wait.until(ExpectedConditions.visibilityOf(nameField)).sendKeys(name);
         return this;
     }
 
     public EditProductFormPage editProductValueField(String value) {
-        valueField.sendKeys(value);
+        valueField.clear();
+        wait.until(ExpectedConditions.visibilityOf(valueField)).sendKeys(value);
         return this;
     }
 
     public EditProductFormPage editProductColoursField(String colors) {
-        coloursField.sendKeys(colors);
+        coloursField.clear();
+        wait.until(ExpectedConditions.visibilityOf(coloursField)).sendKeys(colors);
         return this;
     }
 
     public EditProductFormPage clickEditProductButton() {
-        updateProductButton.click();
+        wait.until(ExpectedConditions.visibilityOf(updateProductButton)).click();
         return new EditProductFormPage(browser);
     }
 
@@ -53,7 +56,8 @@ public class EditProductFormPage extends BasePage {
         return new ProductsListPage(browser);
     }
 
-    public String getToastMessage() {
-        return wait.until(ExpectedConditions.visibilityOf(toast)).getText();
+    public EditProductFormPage waitEditionMessage() {
+        wait.until(ExpectedConditions.visibilityOf(toast));
+        return new EditProductFormPage(browser);
     }
 }

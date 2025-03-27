@@ -28,6 +28,9 @@ public class ProductsListPage extends BasePage {
     @FindBy(css = ".collection li:last-of-type i[class=\"material-icons\"]")
     private WebElement lastProduct;
 
+    @FindBy(css = ".collection li:last-of-type span")
+    private WebElement editProductButton;
+
     public ProductsListPage (WebDriver browser) {
         super(browser);
         PageFactory.initElements(browser, this);
@@ -36,6 +39,16 @@ public class ProductsListPage extends BasePage {
     public CreateProductFormPage accessCreateProductForm() {
         wait.until(ExpectedConditions.elementToBeClickable(addProductButton)).click();
         return new CreateProductFormPage(browser);
+    }
+
+    public EditProductFormPage  accessEditProductForm() {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(editProductButton)).click();
+            return new EditProductFormPage(browser);
+        } catch (TimeoutException e) {
+            System.out.println("No product registered to be updated: " + e.getMessage());
+        }
+        return null;
     }
 
     public String getNameFromLastItem() {

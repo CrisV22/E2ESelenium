@@ -8,6 +8,7 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Products Test Set")
 public class ProductsTest {
     private WebDriver browser;
@@ -23,8 +24,67 @@ public class ProductsTest {
 
     // Act and Assert
     @Test
-    @DisplayName("Register and delete a product with required values")
-    public void registerAProductWithRequiredValues() {
+    @Order(1)
+    @DisplayName("Registering a product filling all values with price of 7,000.00")
+    public void registeringAProductFillingAllValuesWithPriceOf700000() {
+        String username = JsonUtils.getJsonValue("username");
+        String password = JsonUtils.getJsonValue("password");
+
+        ProductsListPage productsListPage = new LoginPage(browser)
+                .fillUserField(username)
+                .fillPasswordField(password)
+                .clickLoginButton();
+
+        Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
+
+        productsListPage.accessCreateProductForm()
+                .fillProductNameField("Notebook")
+                .fillProductValueField("7000.00")
+                .clickCreateProductButton()
+                .accessProductsList();
+
+        // Asserting the product was created
+        Integer numberItemsAfterCreation = productsListPage.getNumberListItems();
+        Integer expectedItemsAfterCreation = numberItemsBeforeCreation + 1;
+
+        String registeredProductName = productsListPage.getNameFromLastItem();
+        String registeredProductValue = productsListPage.getValueFromLastItem();
+
+        Assertions.assertEquals(expectedItemsAfterCreation, numberItemsAfterCreation);
+        Assertions.assertEquals("Notebook", registeredProductName);
+        Assertions.assertEquals("R$ 7.000,00", registeredProductValue);
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("Editing all product values")
+    public void editingAllproductValues() {
+        String username = JsonUtils.getJsonValue("username");
+        String password = JsonUtils.getJsonValue("password");
+
+        ProductsListPage productsListPage = new LoginPage(browser)
+                .fillUserField(username)
+                .fillPasswordField(password)
+                .clickLoginButton()
+                .accessEditProductForm()
+                .editProductNameField("Notebook edited")
+                .editProductValueField("3500.00")
+                .editProductColoursField("Grey, Blue")
+                .clickEditProductButton()
+                .accessProductsList();
+
+        String editedProductName = productsListPage.getNameFromLastItem();
+        String editedProductValue = productsListPage.getValueFromLastItem();
+
+        // Asserting all the product data was updated
+        Assertions.assertEquals("Notebook edited", editedProductName);
+        Assertions.assertEquals("R$ 3.500,00", editedProductValue);
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("Registering and deleting a product with required values with price of 0.01")
+    public void registeringAndDeletingAProductWithRequiredValuesWithPriceOf001() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
@@ -62,39 +122,9 @@ public class ProductsTest {
     }
 
     @Test
-    @DisplayName("Register and edit filling all form fields")
-    public void registerAndEditFillingAllFormFields() {
-        String username = JsonUtils.getJsonValue("username");
-        String password = JsonUtils.getJsonValue("password");
-
-        ProductsListPage productsListPage = new LoginPage(browser)
-                .fillUserField(username)
-                .fillPasswordField(password)
-                .clickLoginButton();
-
-        Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
-
-        productsListPage.accessCreateProductForm()
-                .fillProductNameField("Notebook")
-                .fillProductValueField("7000.00")
-                .clickCreateProductButton()
-                .accessProductsList();
-
-        // Asserting the product was created
-        Integer numberItemsAfterCreation = productsListPage.getNumberListItems();
-        Integer expectedItemsAfterCreation = numberItemsBeforeCreation + 1;
-
-        String registeredProductName = productsListPage.getNameFromLastItem();
-        String registeredProductValue = productsListPage.getValueFromLastItem();
-
-        Assertions.assertEquals(expectedItemsAfterCreation, numberItemsAfterCreation);
-        Assertions.assertEquals("Notebook", registeredProductName);
-        Assertions.assertEquals("R$ 7.000,00", registeredProductValue);
-    }
-
-    @Test
-    @DisplayName("Register a product with value 0.00")
-    public void registerAProductWithValue000() {
+    @Order(4)
+    @DisplayName("Should impede registration of products with value equal or smaller than 0.01")
+    public void shouldImpedeRegistrationOfProductsWithValueEqualOrSmallerThan001() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
@@ -116,8 +146,9 @@ public class ProductsTest {
     }
 
     @Test
-    @DisplayName("Register a product with value 7,000.01")
-    public void registerAProductWithValue700001() {
+    @Order(5)
+    @DisplayName("Should impede registration of products with value equal or bigger than 7,000.01")
+    public void shouldImpedeRegistrationOfProductsWithValueEqualOrBiggerThan700001() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
