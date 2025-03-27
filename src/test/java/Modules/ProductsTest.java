@@ -23,7 +23,7 @@ public class ProductsTest {
 
     // Act and Assert
     @Test
-    @DisplayName("Register a product with required values")
+    @DisplayName("Register and delete a product with required values")
     public void registerAProductWithRequiredValues() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -44,6 +44,13 @@ public class ProductsTest {
 
         Assertions.assertEquals("iPhone", registeredProductName);
         Assertions.assertEquals("R$ 4.522,45", registeredProductValue);
+
+        Integer numberItemsBeforeDeletion = productsListPage.getNumberListItems();
+        productsListPage.deleteLastItem();
+        Integer numberItemsAfterDeletion = productsListPage.getNumberListItems();
+        Integer expectedNumberItemsRegistered = numberItemsBeforeDeletion - 1;
+
+        Assertions.assertEquals(expectedNumberItemsRegistered,numberItemsAfterDeletion);
     }
 
     @Test
@@ -52,19 +59,21 @@ public class ProductsTest {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
-        String message = new LoginPage(browser)
+        ProductsListPage productsListPage = new LoginPage(browser)
                 .fillUserField(username)
                 .fillPasswordField(password)
-                .clickLoginButton()
-                .accessCreateProductForm()
+                .clickLoginButton();
+
+        Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
+
+        Integer numberItemsAfterCreation = productsListPage.accessCreateProductForm()
                 .fillProductNameField("Notebook")
                 .fillProductValueField("000")
                 .fillProductColoursField("Black")
-                .clickCreateProductButton()
-                .getToastMessage();
+                .clickCreateProductButtonInvalidData()
+                .getNumberListItems();
 
-        // Translation: The product value has to be between R$ 0.01 and R$ 7,000.00
-        Assertions.assertEquals("O valor do produto deve estar entre R$ 0,01 e R$ 7.000,00", message);
+        Assertions.assertEquals(numberItemsBeforeCreation, numberItemsAfterCreation);
     }
 
     @Test
@@ -121,19 +130,21 @@ public class ProductsTest {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
-        String message = new LoginPage(browser)
+        ProductsListPage productsListPage = new LoginPage(browser)
                 .fillUserField(username)
                 .fillPasswordField(password)
-                .clickLoginButton()
-                .accessCreateProductForm()
+                .clickLoginButton();
+
+        Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
+
+        Integer numberItemsAfterCreation = productsListPage.accessCreateProductForm()
                 .fillProductNameField("Notebook")
                 .fillProductValueField("7000.01")
                 .fillProductColoursField("Black")
-                .clickCreateProductButton()
-                .getToastMessage();
+                .clickCreateProductButtonInvalidData()
+                .getNumberListItems();
 
-        // Translation: The product value has to be between R$ 0.01 and R$ 7,000.00
-        Assertions.assertEquals("O valor do produto deve estar entre R$ 0,01 e R$ 7.000,00", message);
+        Assertions.assertEquals(numberItemsBeforeCreation, numberItemsAfterCreation);
     }
 
     // Post actions
@@ -141,4 +152,8 @@ public class ProductsTest {
     public void afterEach() {
         browser.quit();
     }
+
+    // Cleaning test mass
+    // @AfterAll
+    // TODO: Delete all test mass
 }

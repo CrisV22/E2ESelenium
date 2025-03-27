@@ -20,14 +20,10 @@ public class CreateProductFormPage extends BasePage {
     @FindBy(id = "btn-salvar")
     private WebElement createProductButton;
 
-    @FindBy(css = "a[class=\"waves-effect waves-light btn grey\"]")
-    private WebElement productsListButton;
-
     public CreateProductFormPage(WebDriver browser) {
         super(browser);
         PageFactory.initElements(browser, this);
     }
-
 
     public CreateProductFormPage fillProductNameField(String name) {
         nameField.sendKeys(name);
@@ -44,13 +40,13 @@ public class CreateProductFormPage extends BasePage {
         return this;
     }
 
-    public CreateProductFormPage clickCreateProductButton() {
+    public EditProductFormPage clickCreateProductButton() {
         createProductButton.click();
-        return new CreateProductFormPage(browser);
+        return new EditProductFormPage(browser);
     }
 
-    public ProductsListPage accessProductsList() {
-        wait.until(ExpectedConditions.elementToBeClickable(productsListButton)).click();
+    public ProductsListPage clickCreateProductButtonInvalidData() {
+        createProductButton.click();
         return new ProductsListPage(browser);
     }
 

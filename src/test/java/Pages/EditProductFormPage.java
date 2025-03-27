@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class EditProductFormPage extends BasePage {
 
@@ -18,6 +19,9 @@ public class EditProductFormPage extends BasePage {
 
     @FindBy(id = "btn-salvar")
     private WebElement updateProductButton;
+
+    @FindBy(css = "a[class=\"waves-effect waves-light btn grey\"]")
+    private WebElement productsListButton;
 
     public EditProductFormPage(WebDriver browser) {
         super(browser);
@@ -42,5 +46,14 @@ public class EditProductFormPage extends BasePage {
     public EditProductFormPage clickUpdateProductButton() {
         updateProductButton.click();
         return new EditProductFormPage(browser);
+    }
+
+    public ProductsListPage accessProductsList() {
+        wait.until(ExpectedConditions.visibilityOf(productsListButton)).click();
+        return new ProductsListPage(browser);
+    }
+
+    public String getToastMessage() {
+        return wait.until(ExpectedConditions.visibilityOf(toast)).getText();
     }
 }
