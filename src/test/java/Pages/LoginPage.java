@@ -1,25 +1,23 @@
 package Pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
     @FindBy(id = "usuario")
-    private final WebElement usernameField;
+    private WebElement usernameField;
 
     @FindBy(id = "senha")
-    private final WebElement passwordField;
+    private WebElement passwordField;
 
     @FindBy(id = "btn-entrar")
-    private final WebElement loginButton;
+    private WebElement loginButton;
 
     public LoginPage(WebDriver browser) {
         super(browser);
-        this.usernameField = browser.findElement(By.id("usuario"));
-        this.passwordField = browser.findElement(By.id("senha"));
-        this.loginButton = browser.findElement(By.id("btn-entrar"));
+        PageFactory.initElements(browser, this);
     }
 
     public LoginPage fillUserField(String username) {
