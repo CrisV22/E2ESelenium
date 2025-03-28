@@ -8,12 +8,39 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Products Test Set")
 public class ProductsTest {
     private WebDriver browser;
 
     // Arrange
+    @BeforeAll
+    public void beforeAll() {
+        this.browser = new ChromeDriver();
+
+        BasePage basePage = new BasePage(browser);
+        basePage.accessHomePage();
+
+        String username = JsonUtils.getJsonValue("username");
+        String password = JsonUtils.getJsonValue("password");
+
+        ProductsListPage productsListPage = new LoginPage(browser)
+                .fillUserField(username)
+                .fillPasswordField(password)
+                .clickLoginButton();
+
+        Integer numberItemsFirstLogin = productsListPage.getNumberListItems();
+
+        if (numberItemsFirstLogin != 0) {
+            for (int i = 0; i < numberItemsFirstLogin; i++) {
+                productsListPage.deleteLastItem();
+            }
+        }
+
+        browser.quit();
+    }
+
     @BeforeEach
     public void beforeEach() {
         this.browser = new ChromeDriver();
@@ -25,8 +52,8 @@ public class ProductsTest {
     // Act and Assert
     @Test
     @Order(1)
-    @DisplayName("Registering a product filling all values with price of 7,000.00")
-    public void registeringAProductFillingAllValuesWithPriceOf700000() {
+    @DisplayName("Should register a product filling all values with price of 7,000.00")
+    public void shouldRegisterAProductFillingAllValuesWithPriceOf700000() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
@@ -70,31 +97,7 @@ public class ProductsTest {
 
         Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
 
-        Integer numberItemsAfterCreation = productsListPage.accessCreateProductForm()
-                .fillProductNameField("Notebook")
-                .fillProductValueField("7000.00")
-                .fillProductColoursField("Black")
-                .clickCreateProductButton()
-                .accessProductsList()
-                .getNumberListItems();
-
-        Assertions.assertEquals(numberItemsBeforeCreation, numberItemsAfterCreation);
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("Should impede duplication of product 7,000.00 in edition")
-    public void shouldImpedeDuplicationOfProduct700000InEdition() {
-        String username = JsonUtils.getJsonValue("username");
-        String password = JsonUtils.getJsonValue("password");
-
-        ProductsListPage productsListPage = new LoginPage(browser)
-                .fillUserField(username)
-                .fillPasswordField(password)
-                .clickLoginButton();
-
-        Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
-
+        // Asserting the product wasn't created due to duplication
         Integer numberItemsAfterCreation = productsListPage.accessCreateProductForm()
                 .fillProductNameField("Notebook")
                 .fillProductValueField("7000.00")
@@ -108,8 +111,8 @@ public class ProductsTest {
 
     @Test
     @Order(3)
-    @DisplayName("Editing all product values")
-    public void editingAllproductValues() {
+    @DisplayName("Should edit all product values")
+    public void shouldEditAllproductValues() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
 
@@ -134,6 +137,46 @@ public class ProductsTest {
 
     @Test
     @Order(4)
+    @DisplayName("Should impede duplication of product 3,500.00 in edition")
+    public void shouldImpedeDuplicationOfProduct350000InEdition() {
+        String username = JsonUtils.getJsonValue("username");
+        String password = JsonUtils.getJsonValue("password");
+
+        ProductsListPage productsListPage = new LoginPage(browser)
+                .fillUserField(username)
+                .fillPasswordField(password)
+                .clickLoginButton();
+
+        Integer numberItemsBeforeCreation = productsListPage.getNumberListItems();
+
+        Integer numberItemsAfterCreation = productsListPage.accessCreateProductForm()
+                .fillProductNameField("Notebook")
+                .fillProductValueField("001")
+                .fillProductColoursField("Black")
+                .clickCreateProductButton()
+                .accessProductsList()
+                .getNumberListItems();
+
+        Integer expectedNumberItemsAfterCreation = numberItemsBeforeCreation + 1;
+        Assertions.assertEquals(expectedNumberItemsAfterCreation, numberItemsAfterCreation);
+
+        // Editing to cause duplication
+        productsListPage
+                .accessEditProductForm()
+                .editProductNameField("Notebook edited")
+                .editProductValueField("3500.00")
+                .clickEditProductButton()
+                .accessProductsList();
+
+        String editedProductName = productsListPage.getNameFromLastItem();
+        String editedProductValue = productsListPage.getValueFromLastItem();
+
+        // Asserting the product data wasn't updated
+        Assertions.assertEquals("Notebook", editedProductName);
+        Assertions.assertEquals("R$ 0,01", editedProductValue);
+    }
+
+    @Test
     @DisplayName("Registering and deleting a product with required values with price of 0.01")
     public void registeringAndDeletingAProductWithRequiredValuesWithPriceOf001() {
         String username = JsonUtils.getJsonValue("username");
@@ -173,7 +216,6 @@ public class ProductsTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("Should impede registration of products with value equal or smaller than 0.01")
     public void shouldImpedeRegistrationOfProductsWithValueEqualOrSmallerThan001() {
         String username = JsonUtils.getJsonValue("username");
@@ -197,7 +239,6 @@ public class ProductsTest {
     }
 
     @Test
-    @Order(6)
     @DisplayName("Should impede registration of products with value equal or bigger than 7,000.01")
     public void shouldImpedeRegistrationOfProductsWithValueEqualOrBiggerThan700001() {
         String username = JsonUtils.getJsonValue("username");
@@ -227,6 +268,8 @@ public class ProductsTest {
     }
 
     // Cleaning test mass
-    // @AfterAll
-    // TODO: Delete all test mass
+    @AfterAll
+    public void afterAll() {
+        beforeAll();
+    }
 }

@@ -4,12 +4,14 @@
 **Objective:** Deepen knowledge in E2E automation testing lechtured by https://github.com/juliodelimas.
 
 **Methodology:**
-1. Reduce time, effort and resources spent on reworks and maintainance by applying the DRY, KISS and YAGNI principles;
+1. Reduce time, effort and resources spent on reworks and maintainance by applying the DRY and KISS principles;
 2. Deliver fast and relevant feedbacks to the squad by automating test scenarios using the Smoke test strategy.
 
 **Design patterns:** Page objects, Page factory and Fluent pages.
 
 **Technologies:** Java, Selenium Webdriver and Junit.
+
+**Documents:** https://docs.google.com/spreadsheets/d/1soHE4iAiyT4EVn1jCHx5mxReMgTcddXc/edit?gid=1606854996#gid=1606854996
 
 ---
 
@@ -46,12 +48,14 @@
 **Objetivo:** Aprofundamento dos conhecimentos em automação de testes E2E ensinados por https://github.com/juliodelimas.
 
 **Metodologia:**
-1. Reduzir tempo, esforço e recursos gastos em retrabalhos e manutenções pela aplicação dos  principios DRY, KISS e YAGNI;
+1. Reduzir tempo, esforço e recursos gastos em retrabalhos e manutenções pela aplicação dos  principios DRY e KISS;
 2. Entregar feedbacks rápidos e relevantes para o squad pela automatização de cenários de teste construídos pela estratégia de Testes de Fumaça.
 
 **Padrões de design:** Page objects, Page factory and Fluent pages.
 
 **Tecnologias:** Java, Selenium Webdriver and Junit.
+
+**Documentos:** https://docs.google.com/spreadsheets/d/1soHE4iAiyT4EVn1jCHx5mxReMgTcddXc/edit?gid=1606854996#gid=1606854996
 
 **GETTING STARTED**
 
