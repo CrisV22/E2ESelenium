@@ -52,7 +52,7 @@ public class EditProductFormPage extends BasePage {
     }
 
     public ProductsListPage accessProductsList() {
-        wait.until(ExpectedConditions.visibilityOf(productsListButton)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(productsListButton)).click();
         return new ProductsListPage(browser);
     }
 }

@@ -75,6 +75,8 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
+                    <parallel>methods</parallel> <!-- Enables parallel execution at the method level -->
+                    <threadCount>4</threadCount> <!-- Number of parallel threads -->
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>

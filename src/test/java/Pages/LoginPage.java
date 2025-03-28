@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
     @FindBy(id = "usuario")
@@ -21,17 +22,17 @@ public class LoginPage extends BasePage {
     }
 
     public LoginPage fillUserField(String username) {
-        usernameField.sendKeys(username);
+        wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
         return this;
     }
 
     public LoginPage fillPasswordField(String password) {
-        passwordField.sendKeys(password);
+        wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
         return this;
     }
 
     public ProductsListPage clickLoginButton() {
-        loginButton.click();
+        wait.until(ExpectedConditions.visibilityOf(loginButton)).click();
         return new ProductsListPage(browser);
     }
 }

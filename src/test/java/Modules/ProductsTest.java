@@ -3,6 +3,7 @@ package Modules;
 import Pages.BasePage;
 import Pages.LoginPage;
 import Pages.ProductsListPage;
+import Utils.ChromeDriverOptions;
 import Utils.JsonUtils;
 import io.qameta.allure.Epic;
 import org.junit.jupiter.api.*;
@@ -18,7 +19,7 @@ public class ProductsTest {
     // Arrange
     @BeforeAll
     public void beforeAll() {
-        this.browser = new ChromeDriver();
+        this.browser = new ChromeDriver(ChromeDriverOptions.getChromeDriverOptions());
 
         BasePage basePage = new BasePage(browser);
         basePage.accessHomePage();
@@ -44,7 +45,7 @@ public class ProductsTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.browser = new ChromeDriver();
+        this.browser = new ChromeDriver(ChromeDriverOptions.getChromeDriverOptions());
 
         BasePage basePage = new BasePage(browser);
         basePage.accessHomePage();

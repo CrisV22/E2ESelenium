@@ -2,6 +2,7 @@ package Modules;
 
 import Pages.BasePage;
 import Pages.LoginPage;
+import Utils.ChromeDriverOptions;
 import Utils.JsonUtils;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
@@ -15,7 +16,7 @@ public class LoginTest {
     // Arrange
     @BeforeEach
     public void beforeEach() {
-        this.browser = new ChromeDriver();
+        this.browser = new ChromeDriver(ChromeDriverOptions.getChromeDriverOptions());
         BasePage basePage = new BasePage(browser);
         basePage.accessHomePage();
     }
