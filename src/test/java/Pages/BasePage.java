@@ -18,8 +18,8 @@ public class BasePage {
         this.browser = browser;
         PageFactory.initElements(browser, this);
         this.wait = new FluentWait<>(browser)
-                .withTimeout(Duration.ofSeconds(10))
-                .pollingEvery(Duration.ofMillis(500))
+                .withTimeout(Duration.ofSeconds(3))
+                .pollingEvery(Duration.ofMillis(300))
                 .ignoring(Exception.class);
     }
 
