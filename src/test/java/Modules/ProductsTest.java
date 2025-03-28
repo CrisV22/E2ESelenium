@@ -3,21 +3,26 @@ package Modules;
 import Pages.BasePage;
 import Pages.LoginPage;
 import Pages.ProductsListPage;
+import Utils.ChromeDriverOptions;
 import Utils.JsonUtils;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DisplayName("Products Test Set")
+@Epic("Products management")
 public class ProductsTest {
     private WebDriver browser;
 
     // Arrange
     @BeforeAll
     public void beforeAll() {
-        this.browser = new ChromeDriver();
+        this.browser = new ChromeDriver(ChromeDriverOptions.getChromeDriverOptions());
 
         BasePage basePage = new BasePage(browser);
         basePage.accessHomePage();
@@ -43,7 +48,7 @@ public class ProductsTest {
 
     @BeforeEach
     public void beforeEach() {
-        this.browser = new ChromeDriver();
+        this.browser = new ChromeDriver(ChromeDriverOptions.getChromeDriverOptions());
 
         BasePage basePage = new BasePage(browser);
         basePage.accessHomePage();
@@ -52,7 +57,8 @@ public class ProductsTest {
     // Act and Assert
     @Test
     @Order(1)
-    @DisplayName("Should register a product filling all values with price of 7,000.00")
+    @Story("Should register a product filling all values with price of 7,000.00")
+    @Severity(SeverityLevel.BLOCKER)
     public void shouldRegisterAProductFillingAllValuesWithPriceOf700000() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -85,7 +91,8 @@ public class ProductsTest {
 
     @Test
     @Order(2)
-    @DisplayName("Should impede duplication of product 7,000.00 in registration")
+    @Story("Should impede duplication of product 7,000.00 in registration")
+    @Severity(SeverityLevel.NORMAL)
     public void shouldImpedeDuplicationOfProduct700000InRegistration() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -111,7 +118,8 @@ public class ProductsTest {
 
     @Test
     @Order(3)
-    @DisplayName("Should edit all product values")
+    @Story("Should edit all product values")
+    @Severity(SeverityLevel.CRITICAL)
     public void shouldEditAllproductValues() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -137,7 +145,8 @@ public class ProductsTest {
 
     @Test
     @Order(4)
-    @DisplayName("Should impede duplication of product 3,500.00 in edition")
+    @Story("Should impede duplication of product 3,500.00 in edition")
+    @Severity(SeverityLevel.NORMAL)
     public void shouldImpedeDuplicationOfProduct350000InEdition() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -177,7 +186,8 @@ public class ProductsTest {
     }
 
     @Test
-    @DisplayName("Registering and deleting a product with required values with price of 0.01")
+    @Story("Registering and deleting a product with required values with price of 0.01")
+    @Severity(SeverityLevel.BLOCKER)
     public void registeringAndDeletingAProductWithRequiredValuesWithPriceOf001() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -216,7 +226,8 @@ public class ProductsTest {
     }
 
     @Test
-    @DisplayName("Should impede registration of products with value equal or smaller than 0.01")
+    @Story("Should impede registration of products with value equal or smaller than 0.01")
+    @Severity(SeverityLevel.NORMAL)
     public void shouldImpedeRegistrationOfProductsWithValueEqualOrSmallerThan001() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -239,7 +250,8 @@ public class ProductsTest {
     }
 
     @Test
-    @DisplayName("Should impede registration of products with value equal or bigger than 7,000.01")
+    @Story("Should impede registration of products with value equal or bigger than 7,000.01")
+    @Severity(SeverityLevel.NORMAL)
     public void shouldImpedeRegistrationOfProductsWithValueEqualOrBiggerThan700001() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");

@@ -2,26 +2,29 @@ package Modules;
 
 import Pages.BasePage;
 import Pages.LoginPage;
+import Utils.ChromeDriverOptions;
 import Utils.JsonUtils;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-@DisplayName("Login Test Set")
+@Epic("Login")
 public class LoginTest {
     private WebDriver browser;
 
     // Arrange
     @BeforeEach
     public void beforeEach() {
-        this.browser = new ChromeDriver();
+        this.browser = new ChromeDriver(ChromeDriverOptions.getChromeDriverOptions());
         BasePage basePage = new BasePage(browser);
         basePage.accessHomePage();
     }
 
     // Act and Assert
     @Test
-    @DisplayName("Login with valid credentials")
+    @Story("Login with valid credentials")
+    @Severity(SeverityLevel.BLOCKER)
     public void loginWithValidCredentials() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
@@ -36,7 +39,8 @@ public class LoginTest {
     }
 
     @Test
-    @DisplayName("Login with invalid credentials")
+    @Story("Login with invalid credentials")
+    @Severity(SeverityLevel.CRITICAL)
     public void loginWithInvalidCredentials() {
         String message = new LoginPage(browser)
                 .fillUserField("invalid")

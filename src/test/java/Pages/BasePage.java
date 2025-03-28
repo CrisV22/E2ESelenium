@@ -19,7 +19,7 @@ public class BasePage {
         PageFactory.initElements(browser, this);
         this.wait = new FluentWait<>(browser)
                 .withTimeout(Duration.ofSeconds(3))
-                .pollingEvery(Duration.ofMillis(300))
+                .pollingEvery(Duration.ofMillis(200))
                 .ignoring(Exception.class);
     }
 
