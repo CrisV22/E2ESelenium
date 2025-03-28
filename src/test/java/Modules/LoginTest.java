@@ -24,7 +24,7 @@ public class LoginTest {
     // Act and Assert
     @Test
     @Story("Login with valid credentials")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.BLOCKER)
     public void loginWithValidCredentials() {
         String username = JsonUtils.getJsonValue("username");
         String password = JsonUtils.getJsonValue("password");
