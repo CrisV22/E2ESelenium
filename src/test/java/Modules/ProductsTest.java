@@ -4,13 +4,14 @@ import Pages.BasePage;
 import Pages.LoginPage;
 import Pages.ProductsListPage;
 import Utils.JsonUtils;
+import io.qameta.allure.Epic;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DisplayName("Products Test Set")
+@Epic("Products management")
 public class ProductsTest {
     private WebDriver browser;
 
